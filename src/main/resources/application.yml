@@ -1,1 +1,60 @@
+server:
+  port: 8080
+spring:
+  jackson:
+    time-zone: UTC
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+    open-in-view: false
+    hibernate:
+      naming:
+        physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+  application:
+    name: training-tracker
+  messages:
+    basename: messages
 
+---
+spring:
+  profiles: jpa-debug
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+logging:
+  level:
+    org.hibernate.SQL: debug
+    org.hibernate.type.descriptor.sql.BasicBinder: trace
+---
+spring:
+  profiles: local
+  h2:
+    console:
+      enabled: true
+      path: /h2
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+    platform: h2
+    initialization-mode: embedded
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+
+app:
+  jwt:
+    secret: ${TT_JWT_SECRET}
+    token-expiration-in-ms: ${TT_JWT_EXPIRATION_IN_MS}
+---
+spring:
+  profiles: dev
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+# Initialize the datasource with available DDL and DML scripts
+#  spring.datasource.initialization-mode=always

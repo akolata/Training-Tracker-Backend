@@ -1,0 +1,4 @@
+app:
+  jwt:
+    secret: TEST_SECRET
+    token-expiration-in-ms: 604800000
