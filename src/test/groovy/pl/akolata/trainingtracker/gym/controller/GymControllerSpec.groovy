@@ -1,6 +1,6 @@
 package pl.akolata.trainingtracker.gym.controller
 
-import com.fasterxml.jackson.databind.ObjectMapper
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import pl.akolata.trainingtracker.gym.repository.GymRepository
 import spock.lang.Specification
 import spock.lang.Unroll
+
+import static pl.akolata.utils.SpecificationHelper.asJsonString
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -45,7 +47,6 @@ class GymControllerSpec extends Specification {
                 .post(GYMS_URL)
                 .content(asJsonString(request))
                 .contentType(MediaType.APPLICATION_JSON))
-
 
         then: "status will be 201 created"
         result.andExpect(MockMvcResultMatchers.status().isCreated())
@@ -130,9 +131,5 @@ class GymControllerSpec extends Specification {
 
     private static createGymRequest(String gymName) {
         return new CreateGymRequest(name: gymName)
-    }
-
-    private static asJsonString(Object o) {
-        return new ObjectMapper().writeValueAsString(o)
     }
 }
