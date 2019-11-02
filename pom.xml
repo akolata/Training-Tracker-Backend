@@ -22,6 +22,7 @@
         <org.junit.jupiter.version>5.5.2</org.junit.jupiter.version>
         <org.spockframework>1.3-groovy-2.5</org.spockframework>
         <org.passay.version>1.4.0</org.passay.version>
+        <io.vavr.version>0.10.2</io.vavr.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.surefire.plugin.version>2.22.2</maven.surefire.plugin.version>
         <org.codehaus.gmavenplus.plugin.version>1.8.0</org.codehaus.gmavenplus.plugin.version>
@@ -93,6 +94,12 @@
             <artifactId>passay</artifactId>
             <version>${org.passay.version}</version>
         </dependency>
+        <dependency>
+            <groupId>io.vavr</groupId>
+            <artifactId>vavr</artifactId>
+            <version>${io.vavr.version}</version>
+        </dependency>
+
 
 
         <!-- TEST DEPENDENCIES  -->
