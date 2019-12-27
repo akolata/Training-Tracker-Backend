@@ -11,6 +11,7 @@ import pl.akolata.trainingtracker.core.dto.OperationResult;
 import pl.akolata.trainingtracker.exercises.command.CreateExerciseCommand;
 import pl.akolata.trainingtracker.exercises.dto.ExerciseDto;
 import pl.akolata.trainingtracker.exercises.dto.ExerciseMapper;
+import pl.akolata.trainingtracker.exercises.dto.ExerciseMapperImpl;
 import pl.akolata.trainingtracker.exercises.entity.Exercise;
 import pl.akolata.trainingtracker.exercises.service.ExercisesService;
 
@@ -30,7 +31,7 @@ class ExercisesController extends BaseApiController {
     public ExercisesController(ExercisesService exercisesService) {
         this.exercisesService = exercisesService;
         requestMapper = new ExercisesRequestMapper();
-        exerciseMapper = new ExerciseMapper();
+        exerciseMapper = new ExerciseMapperImpl();
 
     }
 

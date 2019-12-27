@@ -11,6 +11,8 @@ import pl.akolata.trainingtracker.core.dto.OperationResult;
 import pl.akolata.trainingtracker.gym.command.CreateGymCommand;
 import pl.akolata.trainingtracker.gym.dto.GymDto;
 import pl.akolata.trainingtracker.gym.dto.GymMapper;
+import pl.akolata.trainingtracker.gym.dto.GymsMapper;
+import pl.akolata.trainingtracker.gym.dto.GymsMapperImpl;
 import pl.akolata.trainingtracker.gym.entity.Gym;
 import pl.akolata.trainingtracker.gym.service.GymService;
 
@@ -19,13 +21,13 @@ import java.net.URI;
 
 @RestController
 @AllArgsConstructor
-public class GymController extends BaseApiController {
+class GymController extends BaseApiController {
 
     private static final String GYMS_URL = "/gyms";
     private static final String GYM_RESOURCE_URL = GYMS_URL + "/{id}";
 
     private final GymService gymService;
-    private final GymMapper gymMapper = new GymMapper();
+    private final GymsMapper gymMapper = new GymsMapperImpl();
     private final GymRequestMapper gymRequestMapper = new GymRequestMapper();
 
     @PostMapping(path = GYMS_URL)

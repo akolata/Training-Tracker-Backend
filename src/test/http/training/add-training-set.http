@@ -1,0 +1,13 @@
+POST http://localhost:8080/api/trainings/1/sets
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTcyNjUxODU4LCJleHAiOjE1NzMyNTY2NTh9.Xba7KrzpSAiRdd5ZV1aj69-OqIXsMia3Dvg99yU6FmCARIyquUpGt4MIU8Qo6v0oeKPb_BrVZ30KZpMIn3NHlA
+
+{
+  "exerciseId": 1,
+  "trainingId": 1,
+  "reps": 8,
+  "weight": 10,
+  "additionalInfo": "Too light - increase weight in next set"
+}
+
+###

@@ -1,0 +1,12 @@
+POST http://localhost:8080/api/users/1/trainings
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTc2OTY1MzMyLCJleHAiOjE1Nzc1NzAxMzJ9.L6196jviXvnzb_-VkrbYZkIBgp0YEQPlymZkul_9PH3daO54WE1ScwFcg-7KgL2xQWPEuC2ROFDogX0o5iWJRw
+
+{
+  "date": "2019-11-01",
+  "name": "Running",
+  "additionalInfo": "Evening run",
+  "gymId": 1
+}
+
+###

@@ -18,7 +18,7 @@ import java.util.UUID;
 @Access(AccessType.FIELD)
 @ToString
 @Getter
-public class BaseEntity implements Serializable {
+public abstract class BaseEntity implements Serializable {
 
     @Version
     @Column(nullable = false)

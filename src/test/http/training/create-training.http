@@ -1,0 +1,12 @@
+POST http://localhost:8080/api/trainings
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTcyNjUxODU4LCJleHAiOjE1NzMyNTY2NTh9.Xba7KrzpSAiRdd5ZV1aj69-OqIXsMia3Dvg99yU6FmCARIyquUpGt4MIU8Qo6v0oeKPb_BrVZ30KZpMIn3NHlA
+
+{
+  "date": "2019-11-01",
+  "userId": 1,
+  "name": "Running",
+  "additionalInfo": "Evening run"
+}
+
+###

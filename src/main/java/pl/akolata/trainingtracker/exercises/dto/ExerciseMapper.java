@@ -1,15 +1,9 @@
 package pl.akolata.trainingtracker.exercises.dto;
 
-import lombok.NonNull;
+import org.mapstruct.Mapper;
 import pl.akolata.trainingtracker.exercises.entity.Exercise;
 
-public class ExerciseMapper {
-
-    public ExerciseDto toExerciseDto(@NonNull Exercise exercise) {
-        return new ExerciseDto(
-                exercise.getId(),
-                exercise.getName(),
-                exercise.getType()
-        );
-    }
+@Mapper
+public interface ExerciseMapper {
+    ExerciseDto toExerciseDto(Exercise exercise);
 }

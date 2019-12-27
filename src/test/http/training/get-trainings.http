@@ -1,0 +1,4 @@
+GET http://localhost:8080/api/trainings?name=run&additionalInfo=run&page=1&size=10&sort=id,asc
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNTczMzkwOTIxLCJleHAiOjE1NzM5OTU3MjF9.62BAKbT7H8eKvnuWgyucRltziydWLvsNxgg2j8HNCq75HK997ShNitmAZ9vbvhb9khLZnntS7RZ8n-_4XwVjiA
+
+###
