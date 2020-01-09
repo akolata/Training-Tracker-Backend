@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.akolata.trainingtracker.core.dto.OperationResult;
 import pl.akolata.trainingtracker.core.dto.ValidationResult;
-import pl.akolata.trainingtracker.exercises.repository.ExercisesRepository;
+import pl.akolata.trainingtracker.exercise.repository.ExercisesRepository;
 import pl.akolata.trainingtracker.gym.repository.GymRepository;
 import pl.akolata.trainingtracker.training.command.CreateTrainingCommand;
 import pl.akolata.trainingtracker.training.command.CreateTrainingSetCommand;

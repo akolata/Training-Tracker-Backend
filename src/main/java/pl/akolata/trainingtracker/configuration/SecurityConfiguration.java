@@ -67,7 +67,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/h2/**").permitAll()
                 .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/users/{userId}/**")
-                .access("@ownershipVerifier.isOwner(authentication, #userId)")
+                .access("@ownershipPolicy.isOwner(authentication, #userId)")
                 .anyRequest()
                 .authenticated();
 

@@ -2,7 +2,7 @@ package pl.akolata.trainingtracker.training.command;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import pl.akolata.trainingtracker.exercises.repository.ExercisesRepository;
+import pl.akolata.trainingtracker.exercise.repository.ExercisesRepository;
 import pl.akolata.trainingtracker.gym.repository.GymRepository;
 import pl.akolata.trainingtracker.training.entity.Training;
 import pl.akolata.trainingtracker.training.entity.TrainingSet;

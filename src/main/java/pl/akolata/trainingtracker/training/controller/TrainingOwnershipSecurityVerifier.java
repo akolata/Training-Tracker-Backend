@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 import pl.akolata.trainingtracker.auth.AuthenticationConverter;
-import pl.akolata.trainingtracker.auth.verification.AdminOrOwnerPolicy;
-import pl.akolata.trainingtracker.auth.verification.VerificationUtils;
+import pl.akolata.trainingtracker.auth.policy.AdminOrOwnerPolicy;
+import pl.akolata.trainingtracker.auth.policy.VerificationUtils;
 import pl.akolata.trainingtracker.core.domain.UserPrincipal;
 import pl.akolata.trainingtracker.training.repository.TrainingsRepository;
 

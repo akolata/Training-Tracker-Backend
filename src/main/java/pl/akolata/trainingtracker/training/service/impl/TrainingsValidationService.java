@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import pl.akolata.trainingtracker.common.validation.CommandConstraintsValidationStep;
 import pl.akolata.trainingtracker.core.dto.ValidationResult;
 import pl.akolata.trainingtracker.core.dto.ValidationStep;
-import pl.akolata.trainingtracker.exercises.repository.ExercisesRepository;
+import pl.akolata.trainingtracker.exercise.repository.ExercisesRepository;
 import pl.akolata.trainingtracker.gym.repository.GymRepository;
 import pl.akolata.trainingtracker.training.command.CreateTrainingCommand;
 import pl.akolata.trainingtracker.training.command.CreateTrainingSetCommand;

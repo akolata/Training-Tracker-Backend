@@ -10,8 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import pl.akolata.trainingtracker.core.api.ApiResponse;
 import pl.akolata.trainingtracker.core.api.BaseApiController;
+import pl.akolata.trainingtracker.core.api.ValidationErrorResponse;
 import pl.akolata.trainingtracker.core.dto.OperationResult;
 import pl.akolata.trainingtracker.core.entity.User;
 import pl.akolata.trainingtracker.user.command.SignUpCommand;
@@ -40,14 +40,14 @@ class AuthController extends BaseApiController {
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    ResponseEntity<ApiResponse<JwtAuthenticationResponse>> signIn(@Valid @RequestBody SignInRequest request) {
+    ResponseEntity<JwtAuthenticationResponse> signIn(@Valid @RequestBody SignInRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtTokenProvider.generateToken(authentication);
         return ResponseEntity
-                .ok(ApiResponse.success(new JwtAuthenticationResponse(jwt)));
+                .ok(new JwtAuthenticationResponse(jwt));
     }
 
     @PostMapping(
@@ -55,18 +55,18 @@ class AuthController extends BaseApiController {
             consumes = MediaType.APPLICATION_JSON_UTF8_VALUE,
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE
     )
-    ResponseEntity<ApiResponse<?>> signUp(@Valid @RequestBody SignUpRequest request) {
+    ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest request) {
         OperationResult<User> signUpResult = signUpService.signUp(signUpRequestToCommand(request));
-
         if (signUpResult.isFailure()) {
-            return ResponseEntity.badRequest().body(ApiResponse.failure(signUpResult.getValidationResult().getErrorMsg()));
+            return ResponseEntity.badRequest().body(new ValidationErrorResponse(signUpResult.getErrorMSg()));
         }
+
         User signedUpUser = signUpResult.getResult();
         UserDto userDto = userMapper.toUserDto(signedUpUser);
-        URI location = getResourceLocation("/users/{id}", signedUpUser.getId()); // TODO move this URL path somewhere else
+        URI location = getResourceLocation("/users/{id}", signedUpUser.getId());
         return ResponseEntity
                 .created(location)
-                .body(ApiResponse.success(userDto));
+                .body(userDto);
     }
 
     private SignUpCommand signUpRequestToCommand(SignUpRequest request) {

@@ -9,18 +9,17 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import pl.akolata.trainingtracker.common.query.PaginationHeadersUtils;
-import pl.akolata.trainingtracker.core.api.ApiResponse;
 import pl.akolata.trainingtracker.core.api.BaseApiController;
+import pl.akolata.trainingtracker.core.api.ValidationErrorResponse;
 import pl.akolata.trainingtracker.core.dto.OperationResult;
 import pl.akolata.trainingtracker.core.entity.RoleName;
 import pl.akolata.trainingtracker.training.command.CreateTrainingCommand;
 import pl.akolata.trainingtracker.training.command.CreateTrainingSetCommand;
-import pl.akolata.trainingtracker.training.dto.TrainingDto;
-import pl.akolata.trainingtracker.training.dto.TrainingSetDto;
-import pl.akolata.trainingtracker.training.dto.TrainingSetMapper;
-import pl.akolata.trainingtracker.training.dto.TrainingsMapper;
 import pl.akolata.trainingtracker.training.entity.Training;
 import pl.akolata.trainingtracker.training.entity.TrainingSet;
+import pl.akolata.trainingtracker.training.model.api.TrainingResponseMapper;
+import pl.akolata.trainingtracker.training.model.dto.TrainingDto;
+import pl.akolata.trainingtracker.training.model.dto.TrainingsMapper;
 import pl.akolata.trainingtracker.training.query.TrainingQuery;
 import pl.akolata.trainingtracker.training.service.TrainingQueryService;
 import pl.akolata.trainingtracker.training.service.TrainingsService;
@@ -35,15 +34,15 @@ import java.util.stream.Collectors;
 class TrainingsController extends BaseApiController {
 
     private static final String TRAININGS_URL = "/trainings";
-    private static final String TRAINING_RESOURCE_URL = TRAININGS_URL + "/{id}";
+    private static final String TRAINING_RESOURCE_URL = TRAININGS_URL + "/{trainingId}";
     private static final String TRAINING_SETS_URL = TRAINING_RESOURCE_URL + "/sets";
-    private static final String TRAINING_SET_RESOURCE_URL = TRAINING_SETS_URL + "/{id}";
+    private static final String TRAINING_SET_RESOURCE_URL = TRAINING_SETS_URL + "/{trainingSetId}";
 
     private final TrainingsService trainingsService;
     private final TrainingQueryService trainingQueryService;
-    private final TrainingRequestMapper requestMapper = TrainingRequestMapper.INSTANCE;
-    private final TrainingsMapper trainingsMapper = TrainingsMapper.INSTANCE;
-    private final TrainingSetMapper trainingSetMapper = TrainingSetMapper.INSTANCE;
+    private final TrainingRequestMapper requestMapper;
+    private final TrainingsMapper trainingsMapper;
+    private final TrainingResponseMapper responseMapper;
 
     @Secured(RoleName.Annotation.ROLE_ADMIN)
     @GetMapping(
@@ -74,29 +73,31 @@ class TrainingsController extends BaseApiController {
         CreateTrainingCommand command = requestMapper.toCreateTrainingCommand(request);
         OperationResult<Training> operationResult = trainingsService.createTraining(command);
         if (operationResult.isFailure()) {
-            return ResponseEntity.badRequest().body(ApiResponse.failure(operationResult.getValidationResult().getErrorMsg()));
+            return ResponseEntity.badRequest().body(new ValidationErrorResponse(operationResult.getErrorMSg()));
         }
 
-        TrainingDto trainingDto = trainingsMapper.toTrainingDto(operationResult.getResult());
-        URI location = getResourceLocation(TRAINING_RESOURCE_URL, trainingDto.getId());
-        return ResponseEntity.created(location).body(new TrainingResponse(trainingDto));
+        Training training = operationResult.getResult();
+        URI location = getResourceLocation(TRAINING_RESOURCE_URL, training.getId());
+        return ResponseEntity.created(location).body(responseMapper.toTrainingResponse(training));
     }
 
-    @PreAuthorize("@trainingOwnershipSecurityVerifier.adminOrTrainingOwner(authentication, #request.trainingId)")
+    @PreAuthorize("@trainingOwnershipSecurityVerifier.adminOrTrainingOwner(authentication, #trainingId)")
     @PostMapping(
             path = TRAINING_SETS_URL,
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    ResponseEntity<?> createTrainingSet(@RequestBody @Valid CreateTrainingSetRequest request) {
-        CreateTrainingSetCommand command = requestMapper.toCreateTrainingSetCommand(request);
+    ResponseEntity<?> createTrainingSet(
+            @PathVariable(name = "trainingId") Long trainingId,
+            @RequestBody @Valid CreateTrainingSetRequest request) {
+        CreateTrainingSetCommand command = requestMapper.toCreateTrainingSetCommand(request, trainingId);
         OperationResult<TrainingSet> operationResult = trainingsService.addTrainingSetToTraining(command);
         if (operationResult.isFailure()) {
-            return ResponseEntity.badRequest().body(ApiResponse.failure(operationResult.getValidationResult().getErrorMsg()));
+            return ResponseEntity.badRequest().body(new ValidationErrorResponse(operationResult.getErrorMSg()));
         }
 
-        TrainingSetDto trainingSetDto = trainingSetMapper.toTrainingSetDto(operationResult.getResult());
-        URI location = getResourceLocation(TRAINING_SET_RESOURCE_URL, trainingSetDto.getTraining().getId(), trainingSetDto.getId());
-        return ResponseEntity.created(location).body(new TrainingSetResponse(trainingSetDto));
+        TrainingSet trainingSet = operationResult.getResult();
+        URI location = getResourceLocation(TRAINING_SET_RESOURCE_URL, trainingSet.getTraining().getId(), trainingSet.getId());
+        return ResponseEntity.created(location).body(responseMapper.toTrainingSetResponse(trainingSet));
     }
 }

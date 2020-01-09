@@ -1,9 +1,9 @@
 package pl.akolata.trainingtracker.gym.controller;
 
+import org.mapstruct.Mapper;
 import pl.akolata.trainingtracker.gym.command.CreateGymCommand;
 
-class GymRequestMapper {
-    CreateGymCommand toCreateGymCommand(CreateGymRequest request) {
-        return new CreateGymCommand(request.getName());
-    }
+@Mapper
+interface GymRequestMapper {
+    CreateGymCommand toCreateGymCommand(CreateGymRequest request);
 }

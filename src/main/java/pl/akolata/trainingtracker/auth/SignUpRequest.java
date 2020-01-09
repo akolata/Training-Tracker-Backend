@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @AllArgsConstructor
-@PasswordMatches(message = "password.unmatched")
+@PasswordMatches(message = "{password.unmatched}")
 class SignUpRequest {
 
     @NotBlank(message = "{first-name.not-blank}")

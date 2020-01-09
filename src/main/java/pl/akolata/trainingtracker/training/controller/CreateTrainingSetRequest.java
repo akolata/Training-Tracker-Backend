@@ -1,15 +1,15 @@
 package pl.akolata.trainingtracker.training.controller;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
 @Data
+@NoArgsConstructor
 class CreateTrainingSetRequest {
     @NotNull
     private Long exerciseId;
-    @NotNull
-    private Long trainingId;
     private Integer reps;
     private Integer weight;
     private Integer calories;

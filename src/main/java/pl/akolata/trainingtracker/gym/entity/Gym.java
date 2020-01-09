@@ -1,23 +1,26 @@
 package pl.akolata.trainingtracker.gym.entity;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import pl.akolata.trainingtracker.core.entity.BaseEntity;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(
         name = "GYM",
         uniqueConstraints = {
-                @UniqueConstraint(name = "UK_GYM_NAME", columnNames = Gym.COLUMN_NAME)
+                @UniqueConstraint(name = "GYM_NAME_UK", columnNames = Gym.COLUMN_NAME)
         }
 )
 @Getter
 @Setter
 @ToString(callSuper = true)
-public class Gym extends BaseEntity {
+@NoArgsConstructor
+public class Gym extends BaseEntity implements Serializable {
 
     static final String COLUMN_NAME = "NAME";
     private static final String GYM_SEQ_GENERATOR = "GYM_SEQ_GENERATOR";

@@ -60,7 +60,8 @@ public class Training extends BaseEntity {
     @OneToMany(
             mappedBy = "training",
             cascade = {CascadeType.ALL},
-            orphanRemoval = true
+            orphanRemoval = true,
+            fetch = FetchType.EAGER
     )
     private Set<TrainingSet> sets = new HashSet<>();
 

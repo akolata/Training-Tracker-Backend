@@ -12,22 +12,66 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
+      ddl-auto: validate
   application:
     name: training-tracker
   messages:
     basename: messages
+logging:
+  level:
+    pl.akolata.trainingtracker: INFO
 
 ---
 spring:
-  profiles: jpa-debug
+  profiles: sql-logger
   jpa:
     properties:
       hibernate:
         format_sql: true
 logging:
   level:
-    org.hibernate.SQL: debug
-    org.hibernate.type.descriptor.sql.BasicBinder: trace
+    org:
+      springframework:
+        jdbc:
+          core:
+            JdbcTemplate: DEBUG
+            StatementCreatorUtils: TRACE
+      hibernate:
+        SQL: DEBUG
+        type.descriptor.sql.BasicBinder: TRACE
+---
+spring:
+  profiles: jpa-stats
+  jpa:
+    properties:
+      hibernate:
+        generate_statistics: true
+logging:
+  level:
+    org:
+      springframework:
+        jdbc:
+          core:
+            JdbcTemplate: DEBUG
+            StatementCreatorUtils: TRACE
+      hibernate:
+        stat: DEBUG
+        engine:
+          jdbc:
+            batch:
+              internal: ERROR
+---
+spring:
+  profiles: jpa-debug
+logging:
+  level:
+    org:
+      springframework:
+        orm:
+          jpa: DEBUG
+        transaction: DEBUG
+      hibernate:
+        engine: DEBUG
 ---
 spring:
   profiles: local
@@ -51,6 +95,14 @@ app:
   jwt:
     secret: ${TT_JWT_SECRET}
     token-expiration-in-ms: ${TT_JWT_EXPIRATION_IN_MS}
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          filter:
+            CommonsRequestLoggingFilter: DEBUG
 ---
 spring:
   profiles: dev

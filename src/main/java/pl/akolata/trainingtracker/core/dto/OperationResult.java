@@ -19,4 +19,8 @@ public class OperationResult<T> {
     public boolean isFailure() {
         return validationResult.notValid();
     }
+
+    public String getErrorMSg() {
+        return validationResult.getErrorMsg();
+    }
 }

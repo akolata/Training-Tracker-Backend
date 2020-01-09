@@ -22,10 +22,10 @@ public class DefaultSignUpValidationService implements SignUpValidationService {
 
     @Override
     public ValidationResult validate(SignUpCommand command) {
-        return new CommandConstraintsValidationStep()
-                .linkWith(new UsernameDuplicationValidationStep(userRepository))
-                .linkWith(new EmailDuplicationValidationStep(userRepository))
-                .verify(command);
+        CommandConstraintsValidationStep validation = new CommandConstraintsValidationStep();
+        validation.linkWith(new UsernameDuplicationValidationStep(userRepository))
+                .linkWith(new EmailDuplicationValidationStep(userRepository));
+        return validation.verify(command);
     }
 
     private static class CommandConstraintsValidationStep extends ValidationStep<SignUpCommand> {

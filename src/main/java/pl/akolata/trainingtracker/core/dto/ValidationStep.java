@@ -16,6 +16,6 @@ public abstract class ValidationStep<T> {
             return ValidationResult.valid();
         }
 
-        return next.checkNext(toValidate);
+        return next.verify(toValidate);
     }
 }
