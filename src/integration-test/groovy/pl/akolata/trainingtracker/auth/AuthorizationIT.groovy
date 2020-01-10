@@ -9,7 +9,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import pl.akolata.trainingtracker.core.entity.RoleName
 import pl.akolata.trainingtracker.core.entity.User
-import pl.akolata.trainingtracker.test.annotation.EmbeddedDatabase
+import pl.akolata.trainingtracker.test.annotation.EmbeddedTruncatedAndInitialisedDatabase
 import pl.akolata.trainingtracker.user.dto.UserDto
 import pl.akolata.trainingtracker.user.service.RoleRepository
 import pl.akolata.trainingtracker.user.service.UserRepository
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
 @SpringBootTest
-@EmbeddedDatabase
+@EmbeddedTruncatedAndInitialisedDatabase
 @AutoConfigureMockMvc
 @Title("Authorization spec for sign up and sign in features")
 class AuthorizationIT extends Specification {

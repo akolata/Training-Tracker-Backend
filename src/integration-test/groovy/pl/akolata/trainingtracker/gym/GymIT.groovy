@@ -2,8 +2,6 @@ package pl.akolata.trainingtracker.gym
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -13,6 +11,7 @@ import pl.akolata.trainingtracker.gym.controller.CreateGymRequest
 import pl.akolata.trainingtracker.gym.entity.Gym
 import pl.akolata.trainingtracker.gym.model.api.GymResponse
 import pl.akolata.trainingtracker.gym.repository.GymRepository
+import pl.akolata.trainingtracker.test.annotation.EmbeddedTruncatedAndInitialisedDatabase
 import pl.akolata.trainingtracker.test.annotation.IntegrationTest
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -24,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @IntegrationTest
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@EmbeddedTruncatedAndInitialisedDatabase
 class GymIT extends Specification {
 
     private static final String GYMS_URL = "/api/gyms"
@@ -37,14 +36,6 @@ class GymIT extends Specification {
 
     @Autowired
     ObjectMapper om
-
-    def setup() {
-        gymRepository.deleteAll()
-    }
-
-    def cleanup() {
-        gymRepository.deleteAll()
-    }
 
     def "should create gym"() {
         given: "valid gym creation data"

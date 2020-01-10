@@ -2,8 +2,6 @@ package pl.akolata.trainingtracker.exercise
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.jdbc.EmbeddedDatabaseConnection
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -14,6 +12,7 @@ import pl.akolata.trainingtracker.exercise.controller.CreateExerciseRequest
 import pl.akolata.trainingtracker.exercise.entity.Exercise
 import pl.akolata.trainingtracker.exercise.model.api.ExerciseResponse
 import pl.akolata.trainingtracker.exercise.repository.ExercisesRepository
+import pl.akolata.trainingtracker.test.annotation.EmbeddedTruncatedAndInitialisedDatabase
 import pl.akolata.trainingtracker.test.annotation.IntegrationTest
 import spock.lang.Specification
 
@@ -24,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @IntegrationTest
 @AutoConfigureMockMvc
-@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
+@EmbeddedTruncatedAndInitialisedDatabase
 class ExercisesIT extends Specification {
 
     private static final String EXERCISES_URL = "/api/exercises"
@@ -37,14 +36,6 @@ class ExercisesIT extends Specification {
 
     @Autowired
     ObjectMapper om
-
-    def setup() {
-        exercisesRepository.deleteAll()
-    }
-
-    def cleanup() {
-        exercisesRepository.deleteAll()
-    }
 
     def "should create exercise"() {
         given: "valid exercise creation data"

@@ -9,11 +9,9 @@ import org.springframework.test.web.servlet.MockMvc
 import pl.akolata.trainingtracker.auth.AuthTestHelper
 import pl.akolata.trainingtracker.exercise.controller.ExerciseTestHelper
 import pl.akolata.trainingtracker.exercise.model.api.ExerciseResponse
-import pl.akolata.trainingtracker.exercise.repository.ExercisesRepository
 import pl.akolata.trainingtracker.gym.controller.GymTestHelper
 import pl.akolata.trainingtracker.gym.model.api.GymResponse
-import pl.akolata.trainingtracker.gym.repository.GymRepository
-import pl.akolata.trainingtracker.test.annotation.EmbeddedDatabase
+import pl.akolata.trainingtracker.test.annotation.EmbeddedTruncatedAndInitialisedDatabase
 import pl.akolata.trainingtracker.test.annotation.IntegrationTest
 import pl.akolata.trainingtracker.training.controller.CreateTrainingRequest
 import pl.akolata.trainingtracker.training.controller.CreateTrainingSetRequest
@@ -22,8 +20,6 @@ import pl.akolata.trainingtracker.training.entity.TrainingSet
 import pl.akolata.trainingtracker.training.model.api.TrainingResponse
 import pl.akolata.trainingtracker.training.model.api.TrainingSetResponse
 import pl.akolata.trainingtracker.training.repository.TrainingsRepository
-import pl.akolata.trainingtracker.user.service.RoleRepository
-import pl.akolata.trainingtracker.user.service.UserRepository
 import spock.lang.Specification
 
 import java.time.LocalDate
@@ -34,7 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @IntegrationTest
 @AutoConfigureMockMvc
-@EmbeddedDatabase
+@EmbeddedTruncatedAndInitialisedDatabase
 class TrainingIT extends Specification {
 
     static final TRAININGS_URL = "/api/trainings"
@@ -49,40 +45,13 @@ class TrainingIT extends Specification {
     ExerciseTestHelper exerciseTestHelper
 
     @Autowired
-    UserRepository userRepository
-
-    @Autowired
-    RoleRepository roleRepository
-
-    @Autowired
-    GymRepository gymRepository
-
-    @Autowired
     TrainingsRepository trainingsRepository
-
-    @Autowired
-    ExercisesRepository exercisesRepository
 
     @Autowired
     ObjectMapper om
 
     @Autowired
     MockMvc mvc
-
-    def setup() {
-        trainingsRepository.deleteAll()
-        exercisesRepository.deleteAll()
-        gymRepository.deleteAll()
-        userRepository.deleteAll()
-    }
-
-    def cleanup() {
-        trainingsRepository.deleteAll()
-        exercisesRepository.deleteAll()
-        gymRepository.deleteAll()
-        userRepository.deleteAll()
-        roleRepository.deleteAll()
-    }
 
     def "should create training"() {
         given: "user created in the database"
