@@ -28,6 +28,7 @@
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.surefire.report.plugin.version>2.22.0</maven.surefire.report.plugin.version>
         <org.codehaus.gmavenplus.plugin.version>1.8.0</org.codehaus.gmavenplus.plugin.version>
+        <jib.maven.plugin.version>1.8.0</jib.maven.plugin.version>
     </properties>
 
     <dependencies>
@@ -293,6 +294,26 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib.maven.plugin.version}</version>
+                <configuration>
+                    <from>
+                        <image>gcr.io/distroless/java:11</image>
+                    </from>
+                    <to>
+                        <image>training-tracker-backend</image>
+                        <tags>
+                            <tag>${project.version}</tag>
+                            <tag>latest</tag>
+                        </tags>
+                    </to>
+                    <container>
+                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                    </container>
+                </configuration>
             </plugin>
         </plugins>
     </build>
