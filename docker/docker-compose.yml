@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  training-tracker-backend:
+    image: training-tracker-backend:latest
+    container_name: training-tracker-backend
+    restart: always
+    command: '--spring.profiles.active=local' # TODO add other compose files for other profiles
+    ports:
+      - '8080:8080'
+    networks:
+      - backend
+
+networks:
+  backend:
