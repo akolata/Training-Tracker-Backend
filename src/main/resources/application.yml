@@ -93,8 +93,8 @@ spring:
 
 app:
   jwt:
-    secret: ${TT_JWT_SECRET}
-    token-expiration-in-ms: ${TT_JWT_EXPIRATION_IN_MS}
+    secret: TT_JWT_SECRET
+    token-expiration-in-ms: 604800000
 
 logging:
   level:
