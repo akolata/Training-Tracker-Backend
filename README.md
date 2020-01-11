@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/akolata/Training-Tracker-Backend.svg?branch=TTB-009-add-travi-ci-integration)](https://travis-ci.org/akolata/Training-Tracker-Backend)
 # Training Tracker - backend
 
 Spring Boot application written in Java, API for the Training Tracker project. Features:
