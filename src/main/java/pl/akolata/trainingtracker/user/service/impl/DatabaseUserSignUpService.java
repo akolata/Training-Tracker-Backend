@@ -41,6 +41,16 @@ public class DatabaseUserSignUpService implements UserSignUpService {
         return OperationResult.success(userRepository.saveAndFlush(user));
     }
 
+    @Override
+    public boolean isEmailTaken(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    @Override
+    public boolean isUsernameTaken(String username) {
+        return userRepository.existsByUsername(username);
+    }
+
     private User createUserFromCommand(SignUpCommand command) {
         User user = User.createNewActiveUser(
                 command.getFirstName(),
