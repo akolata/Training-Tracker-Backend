@@ -6,4 +6,8 @@ import pl.akolata.trainingtracker.user.command.SignUpCommand;
 
 public interface UserSignUpService {
     OperationResult<User> signUp(SignUpCommand command);
+
+    boolean isEmailTaken(String email);
+
+    boolean isUsernameTaken(String username);
 }
