@@ -13,12 +13,21 @@ public class TrainingQuery extends BaseQuery {
     private final Long id;
     private final String name;
     private final String additionalInfo;
+    private Long userId;
 
     public TrainingQuery(Long id, String name, String additionalInfo, Pageable pageable) {
         super(pageable);
         this.id = id;
         this.name = name;
         this.additionalInfo = additionalInfo;
+    }
+
+    public TrainingQuery(Long id, String name, String additionalInfo, Long userId, Pageable pageable) {
+        super(pageable);
+        this.id = id;
+        this.name = name;
+        this.additionalInfo = additionalInfo;
+        this.userId = userId;
     }
 
     public Specification<Training> toSpecification() {
