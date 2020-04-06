@@ -110,5 +110,14 @@ spring:
   profiles: dev
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
-# Initialize the datasource with available DDL and DML scripts
-#  spring.datasource.initialization-mode=always
+    hibernate:
+      ddl-auto: update # add Flyway
+  datasource:
+    url: jdbc:postgresql://localhost:5432/training_tracker
+    username: tt_user
+    password: tt_password
+
+app:
+  jwt:
+    secret: TT_JWT_SECRET_DEV
+    token-expiration-in-ms: 604800000
