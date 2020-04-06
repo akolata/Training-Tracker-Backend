@@ -29,14 +29,20 @@ class TrainingSpecification implements Specification<Training> {
             predicates.add(cb.like(cb.lower(root.get("additionalInfo")), "%" + trainingQuery.getAdditionalInfo().toLowerCase() + "%"));
         }
 
+        if (trainingQuery.getUserId() != null) {
+            predicates.add(cb.equal(root.get("user").get("id"),trainingQuery.getUserId()));
+        }
+
         if (currentQueryIsCountRecords(criteriaQuery)) {
             root.join("gym", JoinType.LEFT);
             Join<Object, Object> sets = root.join("sets", JoinType.LEFT);
             sets.join("exercise", JoinType.LEFT);
+            root.join("user", JoinType.INNER);
         } else {
             root.fetch("gym", JoinType.LEFT);
             Fetch<Object, Object> sets = root.fetch("sets", JoinType.LEFT);
             sets.fetch("exercise", JoinType.LEFT);
+            root.fetch("user", JoinType.INNER);
         }
 
         return criteriaQuery
