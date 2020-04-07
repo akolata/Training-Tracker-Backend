@@ -1,0 +1,1 @@
+docker-compose -f docker-compose-only-psql.yml up -d

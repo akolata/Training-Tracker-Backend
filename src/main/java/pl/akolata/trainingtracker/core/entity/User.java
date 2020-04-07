@@ -12,7 +12,7 @@ import java.util.Set;
 
 @Entity
 @Table(
-        name = "USER",
+        name = "TT_USER",
         uniqueConstraints = {
                 @UniqueConstraint(name = "UK_USER_USERNAME", columnNames = User.COLUMN_USERNAME),
                 @UniqueConstraint(name = "UK_USER_EMAIL", columnNames = User.COLUMN_EMAIL)

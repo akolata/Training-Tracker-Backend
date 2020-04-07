@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(
-        name = "ROLE",
+        name = "TT_ROLE",
         uniqueConstraints = {@UniqueConstraint(name = "UK_ROLE_NAME", columnNames = Role.COLUMN_NAME)}
 )
 @Getter

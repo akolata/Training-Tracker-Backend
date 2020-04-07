@@ -12,15 +12,15 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class UserAccountDetails implements Serializable {
 
-    @Column(nullable = false, columnDefinition = "BIT(1)")
+    @Column(nullable = false)
     private Boolean accountExpired;
 
-    @Column(nullable = false, columnDefinition = "BIT(1)")
+    @Column(nullable = false)
     private Boolean accountLocked;
 
-    @Column(nullable = false, columnDefinition = "BIT(1)")
+    @Column(nullable = false)
     private Boolean credentialsExpired;
 
-    @Column(nullable = false, columnDefinition = "BIT(1)")
+    @Column(nullable = false)
     private Boolean enabled;
 }

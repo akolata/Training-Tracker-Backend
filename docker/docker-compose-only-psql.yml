@@ -1,0 +1,15 @@
+version: "3"
+services:
+  postgres:
+    image: postgres:12.2
+    container_name: postgres
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./scripts/init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=example
+    restart: always
