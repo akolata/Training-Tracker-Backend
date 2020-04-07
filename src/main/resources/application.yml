@@ -94,6 +94,8 @@ spring:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: create-drop
+  flyway:
+    enabled: false
 
 app:
   jwt:
@@ -113,11 +115,14 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update # add Flyway
+      ddl-auto: validate
   datasource:
     url: jdbc:postgresql://localhost:5432/training_tracker
     username: tt_user
     password: tt_password
+    initialization-mode: never
+  flyway:
+    enabled: true
 
 app:
   jwt:

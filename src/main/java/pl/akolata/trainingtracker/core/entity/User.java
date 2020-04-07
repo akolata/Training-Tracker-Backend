@@ -12,25 +12,34 @@ import java.util.Set;
 
 @Entity
 @Table(
-        name = "TT_USER",
+        name = "tt_user",
         uniqueConstraints = {
-                @UniqueConstraint(name = "UK_USER_USERNAME", columnNames = User.COLUMN_USERNAME),
-                @UniqueConstraint(name = "UK_USER_EMAIL", columnNames = User.COLUMN_EMAIL)
+                @UniqueConstraint(
+                        name = "tt_user_uuid_uk",
+                        columnNames = BaseEntity.COLUMN_UUID
+                ),
+                @UniqueConstraint(
+                        name = "tt_user_username_uk",
+                        columnNames = User.COLUMN_USERNAME
+                ),
+                @UniqueConstraint(
+                        name = "tt_user_email_uk",
+                        columnNames = User.COLUMN_EMAIL
+                )
         }
 )
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString(callSuper = true)
 public class User extends BaseEntity implements Serializable {
 
-    static final String COLUMN_USERNAME = "USERNAME";
-    static final String COLUMN_EMAIL = "EMAIL";
+    static final String COLUMN_USERNAME = "username";
+    static final String COLUMN_EMAIL = "email";
     private static final String USER_SEQ_GENERATOR = "USER_SEQ_GENERATOR";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = USER_SEQ_GENERATOR)
-    @SequenceGenerator(name = USER_SEQ_GENERATOR, sequenceName = "USER_SEQ")
+    @SequenceGenerator(name = USER_SEQ_GENERATOR, sequenceName = "tt_user_seq", allocationSize = 1)
     @Access(AccessType.PROPERTY)
     private Long id;
 
