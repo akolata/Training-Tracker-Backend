@@ -19,6 +19,7 @@ import java.util.UUID;
 @ToString
 @Getter
 public abstract class BaseEntity implements Serializable {
+    public static final String COLUMN_UUID = "uuid";
 
     @Version
     @Column(nullable = false)
@@ -29,7 +30,7 @@ public abstract class BaseEntity implements Serializable {
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false, updatable = false)
+    @Column(nullable = false)
     private LocalDateTime updatedAt;
 
     @Column(length = 36, nullable = false, updatable = false)

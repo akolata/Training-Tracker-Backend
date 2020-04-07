@@ -14,17 +14,36 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "TRAINING")
+@Table(
+        name = "training",
+        indexes = {
+                @Index(
+                        name = "training_gym_id_idx",
+                        columnList = Training.COLUMN_GYM_ID
+                ),
+                @Index(
+                        name = "training_user_id_idx",
+                        columnList = Training.COLUMN_USER_ID
+                )
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "training_uid_uk",
+                        columnNames = BaseEntity.COLUMN_UUID
+                )
+        }
+)
 @Setter
-@ToString
 public class Training extends BaseEntity {
+    static final String COLUMN_USER_ID = "user_id";
+    static final String COLUMN_GYM_ID = "gym_id";
 
     private static final String TRAINING_SEQ_GENERATOR = "TRAINING_SEQ_GENERATOR";
 
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = TRAINING_SEQ_GENERATOR)
-    @SequenceGenerator(name = TRAINING_SEQ_GENERATOR, sequenceName = "TRAINING_SEQ")
+    @SequenceGenerator(name = TRAINING_SEQ_GENERATOR, sequenceName = "training_seq", allocationSize = 1)
     @Access(AccessType.PROPERTY)
     private Long id;
 
@@ -42,16 +61,16 @@ public class Training extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(
-            name = "GYM_ID",
-            foreignKey = @ForeignKey(name = "FK_TRAINING_GYM_ID")
+            name = COLUMN_GYM_ID,
+            foreignKey = @ForeignKey(name = "training_gym_fk")
     )
     @Getter
     private Gym gym;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "USER_ID",
-            foreignKey = @ForeignKey(name = "FK_TRAINING_USER_ID")
+            name = COLUMN_USER_ID,
+            foreignKey = @ForeignKey(name = "training_user_fk")
     )
     @Getter
     @ToString.Exclude

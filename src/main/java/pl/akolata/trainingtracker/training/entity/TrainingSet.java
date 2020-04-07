@@ -9,32 +9,50 @@ import pl.akolata.trainingtracker.exercise.entity.Exercise;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "TRAINING_SET")
+@Table(
+        name = "training_set",
+        indexes = {
+                @Index(
+                        name = "training_set_training_id_idx",
+                        columnList = TrainingSet.COLUMN_TRAINING_ID
+                ),
+                @Index(
+                        name = "training_set_exercise_id_idx",
+                        columnList = TrainingSet.COLUMN_EXERCISE_ID
+                )
+        },
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "training_set_uuid_uk",
+                        columnNames = BaseEntity.COLUMN_UUID
+                )
+        }
+)
 @Getter
 @Setter
-@ToString
 public class TrainingSet extends BaseEntity {
-
+    static final String COLUMN_EXERCISE_ID = "exercise_id";
+    static final String COLUMN_TRAINING_ID = "training_id";
     private static final String TRAINING_SET_SEQ_GENERATOR = "TRAINING_SET_SEQ_GENERATOR";
 
     @Id
     @Getter
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = TRAINING_SET_SEQ_GENERATOR)
-    @SequenceGenerator(name = TRAINING_SET_SEQ_GENERATOR, sequenceName = "TRAINING_SET_SEQ")
+    @SequenceGenerator(name = TRAINING_SET_SEQ_GENERATOR, sequenceName = "training_set_seq", allocationSize = 1)
     @Access(AccessType.PROPERTY)
     private Long id;
 
     @ManyToOne
     @JoinColumn(
-            name = "EXERCISE_ID",
-            foreignKey = @ForeignKey(name = "FK_TRAINING_SET_EXERCISE_ID")
+            name = COLUMN_EXERCISE_ID,
+            foreignKey = @ForeignKey(name = "training_set_exercise_fk")
     )
     private Exercise exercise;
 
     @ManyToOne
     @JoinColumn(
-            name = "TRAINING_ID",
-            foreignKey = @ForeignKey(name = "FK_TRAINING_SET_TRAINING_ID")
+            name = COLUMN_TRAINING_ID,
+            foreignKey = @ForeignKey(name = "training_set_training_fk")
     )
     @ToString.Exclude
     private Training training;

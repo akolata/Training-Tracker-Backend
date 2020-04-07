@@ -9,8 +9,17 @@ import javax.persistence.*;
 
 @Entity
 @Table(
-        name = "TT_ROLE",
-        uniqueConstraints = {@UniqueConstraint(name = "UK_ROLE_NAME", columnNames = Role.COLUMN_NAME)}
+        name = "tt_role",
+        uniqueConstraints = {
+                @UniqueConstraint(
+                        name = "tt_role_name_uk",
+                        columnNames = Role.COLUMN_NAME
+                ),
+                @UniqueConstraint(
+                        name = "tt_role_uuid_uk",
+                        columnNames = BaseEntity.COLUMN_UUID
+                )
+        }
 )
 @Getter
 @Setter
@@ -23,15 +32,11 @@ public class Role extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = ROLE_SEQ_GENERATOR)
-    @SequenceGenerator(name = ROLE_SEQ_GENERATOR, sequenceName = "ROLE_SEQ", allocationSize = 1)
+    @SequenceGenerator(name = ROLE_SEQ_GENERATOR, sequenceName = "tt_role_seq", allocationSize = 1)
     @Access(AccessType.PROPERTY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, name = COLUMN_NAME)
+    @Column(nullable = false, name = COLUMN_NAME, length = 32)
     private RoleName name;
-
-    Role(RoleName name) {
-        this.name = name;
-    }
 }
