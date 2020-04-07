@@ -97,6 +97,7 @@ spring:
   flyway:
     enabled: false
 
+
 app:
   jwt:
     secret: TT_JWT_SECRET
@@ -109,6 +110,22 @@ logging:
         web:
           filter:
             CommonsRequestLoggingFilter: DEBUG
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    git:
+      mode: simple
+info:
+  app:
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@
 ---
 spring:
   profiles: dev
@@ -128,3 +145,18 @@ app:
   jwt:
     secret: TT_JWT_SECRET_DEV
     token-expiration-in-ms: 604800000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  info:
+    git:
+      mode: simple
+info:
+  app:
+    encoding: @project.build.sourceEncoding@
+    java:
+      source: @java.version@
+      target: @java.version@
