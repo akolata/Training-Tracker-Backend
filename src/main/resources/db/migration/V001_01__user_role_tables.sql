@@ -13,8 +13,8 @@ CREATE TABLE tt_role (
     PRIMARY KEY (id)
 );
 
-CREATE UNIQUE INDEX tt_role_name_uk ON tt_role(name);
 CREATE UNIQUE INDEX tt_role_uuid_uk ON tt_role(uuid);
+CREATE UNIQUE INDEX tt_role_name_uk ON tt_role(name);
 
 -----------------------------------
 --- tt_user

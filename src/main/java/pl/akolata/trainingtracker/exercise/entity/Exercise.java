@@ -11,9 +11,16 @@ import java.io.Serializable;
 
 @Entity
 @Table(
-        name = "EXERCISE",
+        name = "exercise",
         uniqueConstraints = {
-                @UniqueConstraint(name = "EXERCISE_NAME_TYPE_UK", columnNames = {Exercise.COLUMN_NAME, Exercise.COLUMN_TYPE})
+                @UniqueConstraint(
+                        name = "exercise_uuid_uk",
+                        columnNames = BaseEntity.COLUMN_UUID
+                ),
+                @UniqueConstraint(
+                        name = "exercise_name_type_uk",
+                        columnNames = {Exercise.COLUMN_NAME, Exercise.COLUMN_TYPE}
+                )
         }
 )
 @Getter
@@ -22,21 +29,21 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Exercise extends BaseEntity implements Serializable {
 
-    static final String COLUMN_NAME = "NAME";
-    static final String COLUMN_TYPE = "TYPE";
+    static final String COLUMN_NAME = "name";
+    static final String COLUMN_TYPE = "type";
 
     private static final String EXERCISE_SEQ_GENERATOR = "EXERCISE_SEQ_GENERATOR";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = EXERCISE_SEQ_GENERATOR)
-    @SequenceGenerator(name = EXERCISE_SEQ_GENERATOR, sequenceName = "EXERCISE_SEQ")
+    @SequenceGenerator(name = EXERCISE_SEQ_GENERATOR, sequenceName = "exercise_seq", allocationSize = 1)
     @Access(AccessType.PROPERTY)
     private Long id;
 
     @Column(nullable = false, name = COLUMN_NAME)
     private String name;
 
-    @Column(nullable = false, name = COLUMN_TYPE)
+    @Column(nullable = false, name = COLUMN_TYPE, length = 64)
     @Enumerated(value = EnumType.STRING)
     private ExerciseType type;
 

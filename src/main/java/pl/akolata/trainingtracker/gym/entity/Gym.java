@@ -11,9 +11,16 @@ import java.io.Serializable;
 
 @Entity
 @Table(
-        name = "GYM",
+        name = "gym",
         uniqueConstraints = {
-                @UniqueConstraint(name = "GYM_NAME_UK", columnNames = Gym.COLUMN_NAME)
+                @UniqueConstraint(
+                        name = "gym_uuid_uk",
+                        columnNames = BaseEntity.COLUMN_UUID
+                ),
+                @UniqueConstraint(
+                        name = "gym_name_uk",
+                        columnNames = Gym.COLUMN_NAME
+                )
         }
 )
 @Getter
@@ -22,12 +29,12 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class Gym extends BaseEntity implements Serializable {
 
-    static final String COLUMN_NAME = "NAME";
+    static final String COLUMN_NAME = "name";
     private static final String GYM_SEQ_GENERATOR = "GYM_SEQ_GENERATOR";
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = GYM_SEQ_GENERATOR)
-    @SequenceGenerator(name = GYM_SEQ_GENERATOR, sequenceName = "GYM_SEQ")
+    @SequenceGenerator(name = GYM_SEQ_GENERATOR, sequenceName = "gym_seq", allocationSize = 1)
     @Access(AccessType.PROPERTY)
     private Long id;
 
