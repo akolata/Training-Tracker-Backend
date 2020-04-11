@@ -25,6 +25,8 @@
         <org.passay.version>1.4.0</org.passay.version>
         <org.codehaus.groovy.version>2.5.8</org.codehaus.groovy.version>
         <org.hamcrest.hamcrest.version>2.2</org.hamcrest.hamcrest.version>
+        <javax.cache.version>1.1.1</javax.cache.version>
+        <org.ehcache.version>3.8.1</org.ehcache.version>
         <maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.surefire.report.plugin.version>2.22.0</maven.surefire.report.plugin.version>
         <org.codehaus.gmavenplus.plugin.version>1.8.0</org.codehaus.gmavenplus.plugin.version>
@@ -64,6 +66,10 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
         <!-- SPRING DEPENDENCIES -->
 
@@ -116,6 +122,18 @@
             <artifactId>guava-io</artifactId>
             <version>r03</version>
         </dependency>
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+            <version>${javax.cache.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ehcache</groupId>
+            <artifactId>ehcache</artifactId>
+            <version>${org.ehcache.version}</version>
+        </dependency>
+
+
 
         <!-- TEST DEPENDENCIES  -->
         <dependency>

@@ -2,6 +2,7 @@ package pl.akolata.trainingtracker.user.service.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +28,7 @@ public class DatabaseUserDetailsService implements UserDetailsService {
     }
 
     @Transactional
+    @Cacheable(cacheNames = "userLoginCache", key = "#id")
     public UserDetails loadUserById(@NonNull Long id) {
         User user = userRepository
                 .findById(id)
