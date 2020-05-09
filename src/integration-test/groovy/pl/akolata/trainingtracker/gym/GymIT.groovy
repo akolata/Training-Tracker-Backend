@@ -16,7 +16,7 @@ import pl.akolata.trainingtracker.test.annotation.IntegrationTest
 import spock.lang.Specification
 import spock.lang.Unroll
 
-import static org.hamcrest.Matchers.hasItem
+import static org.hamcrest.Matchers.*
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
@@ -127,6 +127,46 @@ class GymIT extends Specification {
 
         and: "gym won't be saved in the database"
         gymRepository.count() == 1
+    }
+
+    def "should return response with empty array if gyms table is empty"() {
+        expect: "server status to be 200 OK and response containing empty array"
+        mvc.perform(MockMvcRequestBuilders.get(GYMS_URL))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath('$.gyms', empty()))
+    }
+
+    @Unroll
+    def "should find gym by name, ignoring characters size, for gym's name [#_gymName] and query by [#_gymNameParam]"() {
+        given: "gym created and saved in the database"
+        def request = createGymRequest(_gymName)
+        mvc.perform(MockMvcRequestBuilders
+                .post(GYMS_URL)
+                .content(om.writeValueAsString(request))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+
+        expect: "query for this gym will return it, ignoring letters size"
+        mvc.perform(MockMvcRequestBuilders.get(GYMS_URL).param("name", _gymNameParam))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath('$.gyms', hasSize(1)))
+
+        where:
+        _gymName   | _gymNameParam
+        // gym's name mix
+        "Citi Fit" | "Citi"
+        "Citi Fit" | "citi"
+        "Citi Fit" | "CITI"
+        // gym's name uppercase
+        "CITI FIT" | "Citi"
+        "CITI FIT" | "citi"
+        "CITI FIT" | "CITI"
+        // gym's name lowercase
+        "citi fit" | "Citi"
+        "citi fit" | "citi"
+        "citi fit" | "CITI"
     }
 
     def createGymRequest(String gymName) {

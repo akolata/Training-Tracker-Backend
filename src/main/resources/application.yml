@@ -17,6 +17,9 @@ spring:
     name: training-tracker
   messages:
     basename: messages
+  cache:
+    jcache:
+      config: classpath:ehcache.xml
 logging:
   level:
     pl.akolata.trainingtracker: INFO
