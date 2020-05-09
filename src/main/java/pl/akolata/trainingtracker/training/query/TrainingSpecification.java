@@ -30,7 +30,16 @@ class TrainingSpecification implements Specification<Training> {
         }
 
         if (trainingQuery.getUserId() != null) {
-            predicates.add(cb.equal(root.get("user").get("id"),trainingQuery.getUserId()));
+            predicates.add(cb.equal(root.get("user").get("id"), trainingQuery.getUserId()));
+        }
+
+        if (trainingQuery.getDate() != null) {
+            predicates.add(
+                    cb.and(
+                            cb.greaterThanOrEqualTo(root.get("date"), trainingQuery.getDate()),
+                            cb.lessThanOrEqualTo(root.get("date"), trainingQuery.getDate())
+                    )
+            );
         }
 
         if (currentQueryIsCountRecords(criteriaQuery)) {

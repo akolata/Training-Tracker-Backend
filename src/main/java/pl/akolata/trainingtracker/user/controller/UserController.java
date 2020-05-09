@@ -3,6 +3,7 @@ package pl.akolata.trainingtracker.user.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +19,9 @@ import pl.akolata.trainingtracker.user.dto.UserDto;
 import pl.akolata.trainingtracker.user.dto.UserMapper;
 import pl.akolata.trainingtracker.user.service.UserSignUpService;
 import pl.akolata.trainingtracker.user.service.UsersProfilesService;
+import pl.akolata.trainingtracker.util.DateUtil;
 
+import java.time.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -83,8 +86,9 @@ class UserController extends BaseApiController {
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String additionalInfo,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) OffsetDateTime date,
             Pageable pageable) {
-        TrainingQuery query = new TrainingQuery(id, name, additionalInfo, userId, pageable);
+        TrainingQuery query = new TrainingQuery(id, name, additionalInfo, userId, DateUtil.toLocalDate(date), pageable);
         Page<Training> trainingsPage = trainingQueryService.findTrainingsBy(query);
         List<TrainingDto> trainings = new LinkedList<>();
         trainingsPage.get().forEach(t -> trainings.add(trainingsMapper.toTrainingDto(t)));
