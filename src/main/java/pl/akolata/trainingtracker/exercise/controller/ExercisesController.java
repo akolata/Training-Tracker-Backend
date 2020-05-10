@@ -3,6 +3,7 @@ package pl.akolata.trainingtracker.exercise.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,14 +11,16 @@ import pl.akolata.trainingtracker.core.api.BaseApiController;
 import pl.akolata.trainingtracker.core.api.ValidationErrorResponse;
 import pl.akolata.trainingtracker.core.dto.OperationResult;
 import pl.akolata.trainingtracker.exercise.command.CreateExerciseCommand;
-import pl.akolata.trainingtracker.exercise.model.dto.ExerciseDto;
-import pl.akolata.trainingtracker.exercise.model.dto.ExerciseMapper;
 import pl.akolata.trainingtracker.exercise.entity.Exercise;
 import pl.akolata.trainingtracker.exercise.model.api.ExerciseResponseMapper;
+import pl.akolata.trainingtracker.exercise.model.api.ExercisesTypesResponse;
+import pl.akolata.trainingtracker.exercise.model.dto.ExerciseDto;
+import pl.akolata.trainingtracker.exercise.model.dto.ExerciseMapper;
 import pl.akolata.trainingtracker.exercise.service.ExercisesService;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.EnumSet;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ class ExercisesController extends BaseApiController {
 
     private static final String EXERCISES_URL = "/exercises";
     private static final String EXERCISE_RESOURCE_URL = EXERCISES_URL + "/{id}";
+    private static final String EXERCISES_TYPES_URL = EXERCISES_URL + "/types";
 
     private final ExercisesService exercisesService;
     private final ExercisesRequestMapper requestMapper;
@@ -48,5 +52,15 @@ class ExercisesController extends BaseApiController {
         return ResponseEntity
                 .created(location)
                 .body(responseMapper.toExerciseResponse(exerciseDto));
+    }
+
+    @GetMapping(
+            value = EXERCISES_TYPES_URL,
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    ResponseEntity<ExercisesTypesResponse> getExercisesTypes() {
+        return ResponseEntity
+                .ok()
+                .body(new ExercisesTypesResponse(EnumSet.allOf(Exercise.ExerciseType.class)));
     }
 }
