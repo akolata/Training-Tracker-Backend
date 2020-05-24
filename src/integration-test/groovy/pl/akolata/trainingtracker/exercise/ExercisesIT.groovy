@@ -8,9 +8,11 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.ResultActions
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers
 import pl.akolata.trainingtracker.exercise.controller.CreateExerciseRequest
 import pl.akolata.trainingtracker.exercise.entity.Exercise
 import pl.akolata.trainingtracker.exercise.model.api.ExerciseResponse
+import pl.akolata.trainingtracker.exercise.model.api.ExercisesTypesResponse
 import pl.akolata.trainingtracker.exercise.repository.ExercisesRepository
 import pl.akolata.trainingtracker.test.annotation.EmbeddedTruncatedAndInitialisedDatabase
 import pl.akolata.trainingtracker.test.annotation.IntegrationTest
@@ -27,6 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ExercisesIT extends Specification {
 
     private static final String EXERCISES_URL = "/api/exercises"
+    private static final String EXERCISES_TYPES_URL = "/api/exercises/types"
 
     @Autowired
     MockMvc mvc
@@ -192,6 +195,29 @@ class ExercisesIT extends Specification {
 
         and: "the number of exercises in the database is still the same"
         exercisesRepository.count() == 1
+    }
+
+    def "should return all exercises types"() {
+        given: "expected response"
+        ExercisesTypesResponse expectedResponse = new ExercisesTypesResponse()
+        expectedResponse.setTypes(EnumSet.allOf(Exercise.ExerciseType))
+
+        when: "GET exercises types request will be executed"
+        def resultAction = mvc.perform(
+                MockMvcRequestBuilders.get(EXERCISES_TYPES_URL)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(MockMvcResultHandlers.print())
+        def responseJSON = resultAction.andReturn().response.contentAsString
+        def response = om.readValue(responseJSON, ExercisesTypesResponse)
+
+        then: "status should be 200 OK"
+        resultAction.andExpect(status().isOk())
+
+        and: "response should contain all exercises types"
+        response != null
+        response.types != null
+        response.types.size() == Exercise.ExerciseType.values().size()
+        response == expectedResponse
     }
 
 
